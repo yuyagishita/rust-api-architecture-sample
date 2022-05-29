@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  sample_postgresql:
+    build:
+      context: .
+      dockerfile: environment/local/Dockerfile.postgresql
+    image: sample_postgresql
+    container_name: sample_postgresql
+    ports:
+      - "5434:5432"
+    volumes:
+      - sample_postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: sample
+      POSTGRES_USER: sample
+      PGUSER: sample
+      POSTGRES_PASSWORD: sample
+    networks:
+      - sample
+
+volumes:
+  sample_postgresql:
+networks:
+  sample:
