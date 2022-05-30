@@ -16,7 +16,7 @@ impl DocumentListResponse {
 
 #[derive(Debug, Clone, Serialize)]
 pub struct DocumentDto {
-    id: u64,
+    id: i32,
     title: String,
     body: String,
 }

@@ -5,17 +5,17 @@ use crate::domains::documents::DocumentId;
 use crate::usecases;
 use actix_web::{delete, get, post, put, web, web::Json, HttpResponse, Responder};
 
+#[get("/")]
+async fn hello() -> impl Responder {
+    HttpResponse::Ok().body("Hello world!")
+}
+
 #[get("/documents")]
 async fn get_documents(data: web::Data<RequestContext>) -> impl Responder {
     match usecases::documents::get_document_list(data.document_repository()) {
         Ok(documents) => HttpResponse::Ok().json(DocumentListResponse::new(documents)),
         Err(_) => HttpResponse::InternalServerError().json(""),
     }
-}
-
-#[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
 }
 
 //

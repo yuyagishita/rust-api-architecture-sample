@@ -1,2 +1,2 @@
 DROP TABLE documents;
-DROP FUNCTION set_update_at();
+-- DROP FUNCTION set_update_at();
