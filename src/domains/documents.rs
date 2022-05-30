@@ -1,5 +1,6 @@
 use super::Id;
 use failure::Error;
+use chrono::{DateTime, Utc, NaiveDateTime};
 
 pub type DocumentId = Id<Document>;
 
@@ -8,6 +9,8 @@ pub struct Document {
     pub id: DocumentId,
     pub title: String,
     pub body: String,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 impl Document {
@@ -16,6 +19,8 @@ impl Document {
             id: Default::default(),
             title: title,
             body: body,
+            created_at: Utc::now().naive_utc(),
+            updated_at: Utc::now().naive_utc(),
         }
     }
 }

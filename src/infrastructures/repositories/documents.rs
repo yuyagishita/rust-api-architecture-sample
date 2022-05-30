@@ -3,6 +3,7 @@ use crate::domains::documents::{Document, DocumentId, DocumentRepository};
 use diesel::prelude::*;
 use diesel::r2d2::{ConnectionManager, Pool};
 use failure::Error;
+use chrono::{DateTime, Utc, NaiveDateTime};
 
 //
 // Entity
@@ -30,6 +31,8 @@ pub struct DocumentEntity {
     pub id: u64,
     pub title: String,
     pub body: String,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime
 }
 
 impl DocumentEntity {
@@ -38,6 +41,8 @@ impl DocumentEntity {
             id: model.id.get(),
             title: model.title.to_owned(),
             body: model.body.to_owned(),
+            created_at: model.created_at.to_owned(),
+            updated_at: model.updated_at.to_owned(),
         }
     }
 
@@ -46,6 +51,8 @@ impl DocumentEntity {
             id: DocumentId::new(self.id),
             title: self.title.to_owned(),
             body: self.body.to_owned(),
+            created_at: self.created_at.to_owned(),
+            updated_at: self.updated_at.to_owned(),
         }
     }
 }
