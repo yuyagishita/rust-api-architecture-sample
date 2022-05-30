@@ -1,1 +1,1 @@
-# rust-api-clean-architecture-sample
+# rust-api-architecture-sample
