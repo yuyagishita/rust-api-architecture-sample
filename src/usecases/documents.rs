@@ -4,7 +4,7 @@ use failure::Error;
 pub fn get_document_list(repository: impl DocumentRepository) -> Result<Vec<Document>, Error> {
     repository.list()
 }
-
+//
 // pub fn get_document(
 //     repository: impl DocumentRepository,
 //     document_id: DocumentId,
@@ -12,13 +12,13 @@ pub fn get_document_list(repository: impl DocumentRepository) -> Result<Vec<Docu
 //     repository.find_by_id(document_id)
 // }
 //
-// pub fn post_document(
-//     repository: impl DocumentRepository,
-//     document: &Document,
-// ) -> Result<(), Error> {
-//     repository.insert(document)
-// }
-//
+pub fn post_document(
+    repository: impl DocumentRepository,
+    document: &Document,
+) -> Result<(), Error> {
+    repository.insert(document)
+}
+
 // pub fn update_document(
 //     repository: impl DocumentRepository,
 //     document: &Document,

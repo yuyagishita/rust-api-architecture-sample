@@ -17,7 +17,7 @@ pub async fn run() -> std::io::Result<()> {
             .service(handlers::hello)
             .service(handlers::get_documents)
             // .service(handlers::get_document)
-            // .service(handlers::post_document)
+            .service(handlers::post_document)
             // .service(handlers::delete_document)
             // .service(handlers::update_document)
     })

@@ -1,5 +1,6 @@
 use super::super::databases::schema::*;
 use crate::domains::documents::{Document, DocumentId, DocumentRepository};
+use diesel::associations::HasTable;
 use diesel::prelude::*;
 use diesel::r2d2::{ConnectionManager, Pool};
 use failure::Error;
@@ -56,6 +57,20 @@ pub struct DocumentRepositoryImpl {
 }
 
 impl DocumentRepository for DocumentRepositoryImpl {
+    fn list(&self) -> Result<Vec<Document>, Error> {
+        use super::super::databases::schema::documents::dsl;
+
+        let query = dsl::documents.into_boxed();
+        let conn = self.pool.get()?;
+        let results: Vec<DocumentEntity> = query.limit(100).load(&conn)?;
+
+        let test: Result<Vec<DocumentEntity>, _> = dsl::documents.load(&conn);
+        println!("{:?}", test);
+
+
+        Ok(results.into_iter().map(|e| e.of()).collect())
+    }
+
     // fn find_by_id(&self, document_id: DocumentId) -> Result<Document, Error> {
     //     use super::super::database::schema::documents::dsl;
     //
@@ -67,27 +82,17 @@ impl DocumentRepository for DocumentRepositoryImpl {
     //     Ok(entity.of())
     // }
 
-    fn list(&self) -> Result<Vec<Document>, Error> {
+    fn insert(&self, document: &Document) -> Result<(), Error> {
         use super::super::databases::schema::documents::dsl;
 
-        let query = dsl::documents.into_boxed();
-        let conn = self.pool.get()?;
-        let results: Vec<DocumentEntity> = query.limit(100).load(&conn)?;
+        let entity = NewDocumentEntity::from(document);
+        let conn = self.pool.get().unwrap();
+        diesel::insert_into(dsl::documents)
+            .values(entity)
+            .execute(&conn)?;
 
-        Ok(results.into_iter().map(|e| e.of()).collect())
+        Ok(())
     }
-
-    // fn insert(&self, document: &Document) -> Result<(), Error> {
-    //     use super::super::database::schema::documents::dsl;
-    //
-    //     let entity = NewDocumentEntity::from(document);
-    //     let conn = self.pool.get().unwrap();
-    //     diesel::insert_into(dsl::documents)
-    //         .values(entity)
-    //         .execute(&conn)?;
-    //
-    //     Ok(())
-    // }
     //
     // fn update(&self, document: &Document) -> Result<(), Error> {
     //     let entity = DocumentEntity::from(document);

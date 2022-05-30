@@ -18,17 +18,16 @@ async fn get_documents(data: web::Data<RequestContext>) -> impl Responder {
     }
 }
 
-//
-// #[post("/documents")]
-// async fn post_document(
-//     data: web::Data<RequestContext>,
-//     request: Json<DocumentRequest>,
-// ) -> impl Responder {
-//     match usecases::documents::post_document(data.document_repository(), &request.of()) {
-//         Ok(_) => HttpResponse::NoContent().finish(),
-//         Err(_) => HttpResponse::InternalServerError().json(""),
-//     }
-// }
+#[post("/documents")]
+async fn post_document(
+    data: web::Data<RequestContext>,
+    request: Json<DocumentRequest>,
+) -> impl Responder {
+    match usecases::documents::post_document(data.document_repository(), &request.of()) {
+        Ok(_) => HttpResponse::NoContent().finish(),
+        Err(_) => HttpResponse::InternalServerError().json(""),
+    }
+}
 //
 // #[put("/documents/{id}")]
 // async fn update_document(
